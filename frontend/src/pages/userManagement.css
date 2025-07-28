@@ -1,0 +1,277 @@
+/* Modal styles for add/edit user */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  padding: 32px 28px;
+  min-width: 320px;
+  max-width: 95vw;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.user-management {
+  border-radius: 10px;
+  background: #fff;
+  min-width: 90%;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 32px 24px;
+  margin: 0 auto;
+}
+.user-management h2 {
+  color: #1976d2;
+  margin-bottom: 18px;
+}
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+}
+.user-table th, .user-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+.user-table th {
+  background: #f5f5f5;
+  color: #1976d2;
+}
+.user-table tr.online {
+  background: #e8f5e9;
+}
+.user-table tr.offline {
+  background: #ffebee;
+}
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.status-dot.online {
+  background: #43a047;
+}
+.status-dot.offline {
+  background: #e53935;
+}
+
+.remove-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+.user-management h2 {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  color: #222;
+}
+
+.user-management-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 80%;
+  background-color: #f0f8ff;
+  color: black;
+
+}
+
+.sort-controls {
+  font-size: 0.98em;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 30%;
+}
+
+.sort-select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  background-color: #f0f8ff;
+  color: #0077b6;
+  font-weight: bold;
+}
+
+.sort-dir-btn {
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.user-table-section {
+  margin-bottom: 32px;
+}
+
+.user-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.user-table th, .user-table td {
+  padding: 12px 14px;
+  text-align: left;
+  padding-right: 0;
+}
+
+.user-table th {
+  background: #f5f5f5;
+  cursor: pointer;
+  user-select: none;
+}
+
+.user-table tr.online {
+  background: #f9fff9;
+}
+
+.user-table tr.offline {
+  background: #fff;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: middle;
+}
+
+.status-dot.online {
+  background: #4caf50;
+}
+
+.status-dot.offline {
+  background: #bdbdbd;
+}
+
+.edit-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  margin-right: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s;
+}
+
+.edit-btn:hover {
+  background: #1565c0;
+}
+
+.remove-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s;
+}
+
+.remove-btn:hover {
+  background: #b71c1c;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 32px 28px 22px 28px;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  min-width: 320px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.modal-input {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #bdbdbd;
+  font-size: 1em;
+}
+
+.modal-status-row {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-label.online {
+  color: #388e3c;
+}
+
+.status-label.offline {
+  color: #888;
+}
+
+.modal-btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}

@@ -1,0 +1,123 @@
+.patient-info {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-size: 1.05rem;
+  max-width: 80vw;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.patient-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.patient-main-line {
+  margin: 0 10px -25px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  color: #2c3e50;
+}
+
+.patient-sub-line {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.patient-alert {
+  background: #fff3cd;
+  padding: 10px 14px;
+  border-left: 4px solid #ffc107;
+  border-radius: 6px;
+  font-size: 0.98rem;
+  color: #856404;
+}
+
+.patient-alert strong {
+  color: #cc7a00;
+  margin-right: 6px;
+}
+
+.alert-time {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.patient-footer {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #888;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 10px;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.status-label {
+  text-transform: capitalize;
+}
+
+.status-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+}
+
+.status-circle.active {
+  background: #43a047;
+  border-color: #388e3c;
+}
+
+.status-circle.alert {
+  background: #e53935;
+  border-color: #b71c1c;
+}
+
+.status-circle.offline {
+  background: #bdbdbd;
+  border-color: #757575;
+}
+
+.report-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1.05em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 10px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.report-btn:hover {
+  background: #1565c0;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+}

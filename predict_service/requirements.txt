@@ -1,0 +1,10 @@
+Flask
+numpy
+scipy
+tensorflow
+gunicorn
+biosppy
+neurokit2
+wfdb
+peakutils
+flask_cors

@@ -1,0 +1,69 @@
+#root {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x:hidden;
+}
+
+.app-main-layout {
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  width: 100vw;
+}
+
+.app-content-area {
+  margin-left: 250px;
+  flex: 1;
+  display: flex;
+  width: calc(100% - 250px);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-centered-content {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.chart{
+  width: 100%;
+  height: auto;
+  padding: 0 1rem;
+  align-items: center;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+

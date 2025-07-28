@@ -1,0 +1,69 @@
+.report-editor {
+    min-width: 80%;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 32px 28px;
+}
+.report-editor h2 {
+  color: #1976d2;
+  margin-bottom: 18px;
+}
+.report-textarea {
+  width: 100%;
+  min-height: 220px;
+  font-size: 1.08em;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #bdbdbd;
+  margin-bottom: 18px;
+  resize: vertical;
+}
+.notes-textarea {
+  width: 100%;
+  min-height: 80px;
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #bdbdbd;
+  margin-bottom: 18px;
+  resize: vertical;
+}
+.report-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+  justify-content: center;
+}
+.validate-btn {
+  background: #43a047;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.reject-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.back-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.report-status {
+  margin-top: 10px;
+  font-size: 1.08em;
+}

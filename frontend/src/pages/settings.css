@@ -1,0 +1,81 @@
+.settings-container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+  padding: 2.2rem 3rem 2rem 3rem;
+}
+.settings-title {
+  color: #1976d2;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 2.2rem;
+  text-align: center;
+}
+.settings-section {
+  margin-bottom: 1.7rem;
+}
+
+.settings-section label {
+  display: block;
+  font-weight: 500;
+  color: #1976d2;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+.settings-section input[type="text"],
+.settings-section input[type="password"],
+.settings-section input[type="email"] {
+  width: 80%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #bcdffb;
+  color: black;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f9f9f9;
+  margin-bottom: 0.7rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.settings-section input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px #e3f2fd;
+  outline: none;
+}
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+.settings-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.settings-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.settings-btn.secondary {
+  background: #e3e8ee;
+  color: #1976d2;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.settings-radio {
+  margin-right: 0.7rem;
+}
+
+.settings-dropdown {
+    color: black;
+}

@@ -1,0 +1,20 @@
+.print-mode .scrollable-container {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+@media print {
+  .print-mode * {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  #chart-section {
+    page-break-before: always;
+    break-before: page;
+  }
+}
+.chart {
+  padding-bottom: 20px;
+  padding-top: 20px;
+}

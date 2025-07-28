@@ -1,0 +1,95 @@
+.ecg-wrapper {
+  width: 100%;
+  max-width: 5000px;}
+
+.ecg-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.ecg-grid {
+  width: 100%;
+  display: grid;
+  gap: 24px;
+}
+
+.ecg-lead-container {
+  background:
+    repeating-linear-gradient(0deg, #f8f8f8, #f8f8f8 4px, #e0e0e0 4px, #e0e0e0 5px),
+    repeating-linear-gradient(90deg, #f8f8f8, #f8f8f8 4px, #e0e0e0 4px, #e0e0e0 5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  min-width: 400px;
+}
+
+.ecg-lead-label {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.ecg-tooltip {
+  font-size: 12px;
+  padding: 6px;
+  line-height: 1.2;
+  background: #000;
+  color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.ecg-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ecg-modal-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ecg-modal-large {
+  min-width: 1200px;
+  min-height: 500px;
+  max-width: 99vw;
+  max-height: 95vh;
+}
+
+.ecg-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.ecg-modal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.ecg-modal-close {
+  position: relative;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  margin-left: 16px;
+}

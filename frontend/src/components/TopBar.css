@@ -1,0 +1,128 @@
+.top-bar {
+  width: 100%;
+  height: 56px;
+  background: #fff;
+  border-bottom: 1px solid #e3e8ee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem 0 1.5rem;
+  position: relative;
+  top: 0;
+  z-index: 10;
+  margin-bottom: 10px;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.top-bar-right button {
+    border-radius: 20px;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+}
+
+.top-bar-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.7rem;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  transition: color 0.2s;
+}
+.top-bar-icon:hover {
+  color: #0d47a1;
+}
+
+.top-bar-profile {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 8px;
+  border-radius: 20px;
+  transition: background 0.2s;
+}
+.top-bar-profile:hover {
+  background: #f0f6fc;
+}
+
+.top-bar-profile:active, .top-bar-profile:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  background: #1976d2;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-right: 0.7rem;
+}
+.profile-name {
+  font-size: 1rem;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.profile-popup {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  padding: 1.2rem 1.5rem 1.1rem 1.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeInProfile 0.18s;
+}
+
+@keyframes fadeInProfile {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-popup-avatar {
+  width: 48px;
+  height: 48px;
+  background: #1976d2;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 0.7rem;
+}
+.profile-popup-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 0.2rem;
+}
+.profile-popup-email {
+  font-size: 0.90rem;
+  color: #555;
+  word-break: break-all;
+}

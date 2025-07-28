@@ -1,0 +1,23 @@
+services:
+  back:
+    build: ./back
+    environment:
+      - PREDICT_URL=http://predict_service:5001/predict
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  predict_service:
+    build: ./predict_service
+    ports:
+      - "5001:5001"   
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - back
+      - predict_service
+    restart: unless-stopped

@@ -1,0 +1,75 @@
+.stream-dashboard {
+  width: 100%;
+  max-width: 5000px;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+.ecg-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.stream-ecg-grid {
+  width: 100%;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stream-ecg-lead {
+  background:
+    repeating-linear-gradient(0deg, #f8f8f8, #f8f8f8 4px, #e0e0e0 4px, #e0e0e0 5px),
+    repeating-linear-gradient(90deg, #f8f8f8, #f8f8f8 4px, #e0e0e0 4px, #e0e0e0 5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  min-width: 400px;
+}
+
+.ecg-lead-label {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.ecg-tooltip {
+  font-size: 12px;
+  padding: 6px;
+  line-height: 1.2;
+  background: #000;
+  color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.stream-vitals {
+  margin-bottom: 24px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  max-width: 400px;
+}
+
+.stream-patient-info {
+  margin-bottom: 24px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  max-width: 400px;
+}
+
+@media (max-width: 900px) {
+  .stream-ecg-grid {
+    grid-template-columns: 1fr;
+  }
+  .stream-ecg-lead {
+    min-width: unset;
+  }
+}

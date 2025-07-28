@@ -1,0 +1,117 @@
+.patients-list {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  width: 75vw;
+  max-width: 100%;
+  min-height: 60vh;
+}
+
+.patients-list h2 {
+  color: #0077b6;
+  margin-bottom: 1rem;
+}
+.patients-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.patients-search {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 80%;
+  background-color: #f0f8ff;
+  color: black;
+}
+.patients-sort {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 20%;
+  background-color: #f0f8ff;
+  color: #0077b6;
+  font-weight: bold;
+}
+.patients-sort-btn {
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.patients-sort-btn:hover {
+  background: #005f8a;
+}
+.patients-list ul {
+  list-style: none;
+  padding: 0;
+}
+.patients-list li {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #eee;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s, color 0.2s;
+}
+.patients-list li:hover {
+  background: #e0f7fa;
+  color: #0077b6;
+}
+.patients-list li:last-child {
+  border-bottom: none;
+}
+.patients-list .patient-id {
+  font-weight: bold;
+  margin-right: 1rem;
+  color: #333;
+}
+.patients-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.patients-table th, .patients-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+.patients-table tr:hover {
+  background: #e0f7fa;
+  color: #0077b6;
+  cursor: pointer;
+}
+.patients-table th {
+  background: #f0f8ff;
+  color: #0077b6;
+  font-weight: bold;
+}
+.status-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  border: 2px solid #eee;
+}
+.status-green {
+  background: #4caf50;
+}
+.status-yellow {
+  background: #ffeb3b;
+}
+.status-red {
+  background: #f44336;
+}
+.status-grey {
+  background: #bdbdbd;
+}
+
