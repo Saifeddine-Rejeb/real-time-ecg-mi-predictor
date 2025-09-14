@@ -10,6 +10,8 @@ export default function PatientDashboard() {
   const { patientId } = useParams();
   const [ecgData, setEcgData] = useState(null);
   const [predictedClass, setPredictedClass] = useState('');
+  const [predictedText, setPredictedText] = useState('');
+  const [predictedConfidence, setPredictedConfidence] = useState(null);
   const [vitals, setVitals] = useState(null);
   const [patient, setPatient] = useState(null);
   const [showPdfModal, setShowPdfModal] = useState(false);
@@ -17,34 +19,49 @@ export default function PatientDashboard() {
   const chartRef = useRef();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/ecg?file=normal/${patientId}`)
-      .then(res => res.json())
-      .then(data => setEcgData(data));
-
-    fetch(`http://localhost:5000/api/vitals?patient=${patientId}`)
-      .then(res => res.json())
-      .then(data => setVitals(data));
-
     const found = patients.find(p => p.id === patientId);
     setPatient(found || null);
+
+    const source = encodeURIComponent(found?.sourcePath ?? patientId);
+
+    fetch(`http://localhost:5000/api/ecg?file=${source}`)
+      .then(res => res.json())
+      .then(data => setEcgData(data))
+      .catch(() => setEcgData(null));
+
+    fetch(`http://localhost:5000/api/vitals?patient=${source}`)
+      .then(res => res.json())
+      .then(data => setVitals(data))
+      .catch(() => setVitals(null));
   }, [patientId]);
 
   useEffect(() => {
     if (ecgData) {
+      const sourcePath = patient?.sourcePath ?? patientId;
       fetch('http://localhost:5000/api/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ file: `normal/${patientId}` }),
+        body: JSON.stringify({ file: `${sourcePath}` }),
       })
         .then(res => res.json())
-        .then(data => setPredictedClass(data.class));
+        .then(data => {
+          const clsName = data?.predicted_class_name || data?.predicted_class || data?.class || data?.label || '';
+          const fullName = data?.predicted_full_name || clsName || '';
+          setPredictedClass(clsName);
+          setPredictedText(fullName);
+          setPredictedConfidence(typeof data?.confidence === 'number' ? data.confidence : null);
+        })
+        .catch(() => {
+          setPredictedClass('');
+          setPredictedText('');
+          setPredictedConfidence(null);
+        });
     }
-  }, [ecgData, patientId]);
+  }, [ecgData, patientId, patient]);
 
   const handleGenerateReport = async () => {
-    // Dynamically import jsPDF and html2canvas
     const [{ default: jsPDF }, html2canvas] = await Promise.all([
       import('jspdf'),
       import('html2canvas').then(m => m.default)
@@ -59,17 +76,14 @@ export default function PatientDashboard() {
     doc.text(`Age: ${patient?.age || ''}`, 14, 46);
     doc.text(`Gender: ${patient?.gender || ''}`, 14, 54);
     doc.text(`Status: ${patient?.status || ''}`, 14, 62);
-    doc.text(`Prediction: ${predictedClass || ''}`, 14, 74);
-    doc.text(`Last HR: ${vitals?.heartRate || '-'}`, 14, 82);
-    doc.text('---', 14, 90);
-    doc.text('ECG Data (first 10 values):', 14, 98);
-    if (ecgData && Array.isArray(ecgData) && ecgData.length > 0) {
-      const firstRow = Array.isArray(ecgData[0]) ? ecgData[0] : Object.values(ecgData[0]);
-      doc.setFontSize(10);
-      doc.text(firstRow.slice(0, 10).map(v => String(v)).join(', '), 14, 106);
+    doc.text(`Prediction: ${predictedText || predictedClass || ''}`, 14, 74);
+    if (predictedConfidence != null) {
+      doc.text(`Confidence: ${(predictedConfidence * 100).toFixed(1)}%`, 14, 82);
     }
+    doc.text(`Last HR: ${vitals?.heartRate || '-'}`, 14, predictedConfidence != null ? 90 : 82);
+    doc.text('---', 14, 90);
 
-    // Add ECG chart as image
+
     if (chartRef.current) {
       const canvas = await html2canvas(chartRef.current, { backgroundColor: '#fff', scale: 2 });
       const imgData = canvas.toDataURL('image/png');
@@ -101,7 +115,7 @@ export default function PatientDashboard() {
       </div>
 
       <div id="prediction-section">
-        <Prediction predictedClass={predictedClass} />
+        <Prediction predictedClass={predictedClass} displayText={predictedText} confidence={predictedConfidence} />
       </div>
 
       <div id="chart-section" ref={chartRef} style={{ background: '#fff', padding: 8, borderRadius: 8 }}>

@@ -10,7 +10,6 @@ import biosppy.signals.ecg as ecg
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
-
 # Load model once at import
 model = tf.keras.models.load_model('enhanced_model_resaved.h5', compile=False)
 

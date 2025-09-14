@@ -3,6 +3,7 @@ import Example from '../components/chart';
 import Prediction from '../components/prediction';
 import Vitals from '../components/vitals';
 import { useParams } from 'react-router-dom';
+import './alertDashboard.css';
 
 export default function AlertDashboard() {
   const { alertId } = useParams();
@@ -36,7 +37,11 @@ export default function AlertDashboard() {
 
   return (
     <div className="chart">
-      <h2>Alert Dashboard for {alertId}</h2>
+      <div className="patient-info">
+        <h2 className="alert-dashboard-title">Alert for Patient {alertId}</h2>
+        <p className="alert-time">{'2025-06-19 09:12'}</p>
+      </div>
+  
       <Prediction predictedClass={predictedClass} />
       <Vitals vitals={vitals} />
       <Example data={ecgData} />

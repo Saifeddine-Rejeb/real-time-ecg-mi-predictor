@@ -2,8 +2,7 @@ import wfdb
 from utils import calculate_rr_intervals
 
 if __name__ == "__main__":
-    # Example: change this path to a real test file in your environment
-    ecg_file_path = "test/normal/04842_hr"
+    ecg_file_path = "web/back/patients_test/Mild_Cardiac_Insufficiency/patient_classe_0_001"
     try:
         signal, fields = wfdb.rdsamp(ecg_file_path)
         rr_intervals, r_peaks = calculate_rr_intervals(signal)

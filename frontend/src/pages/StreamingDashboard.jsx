@@ -8,7 +8,7 @@ import './StreamingDashboard.css';
 export default function StreamingDashboard() {
   const [batches, setBatches] = useState([]);
   const [vitals, setVitals] = useState(null); 
-  const [predictedClass, setPredictedClass] = useState('');
+  const [prediction, setPrediction] = useState({});
   const [patient, setPatient] = useState({
     id: 'stream-test',
     deviceId: 'stream-001',
@@ -96,23 +96,41 @@ export default function StreamingDashboard() {
               ? batches.slice(-window)
               : [...batches, ...newBatchArr].slice(-window);
             const allSamples = windowBatches.flatMap(batch => batch.ecg || []);
-            // Prepare ECG array for API (5000 x 12)
-            const ecgArray = Array.from({ length: 5000 }, (_, i) => {
-              const sample = allSamples[i] || Array(12).fill(0);
-              return sample;
-            });
+            // Prepare 1D array for model: extract first lead, resample to 187, normalize
+            const flatSamples = allSamples.map(row => Array.isArray(row) ? row[0] : 0); // first lead
+            // Resample to 187
+            let resampled = flatSamples;
+            if (flatSamples.length !== 187) {
+              // Linear interpolation
+              const n = flatSamples.length;
+              resampled = Array.from({ length: 187 }, (_, i) => {
+                const idx = (i * (n - 1)) / (187 - 1);
+                const low = Math.floor(idx);
+                const high = Math.ceil(idx);
+                if (low === high) return flatSamples[low];
+                const weight = idx - low;
+                return flatSamples[low] * (1 - weight) + flatSamples[high] * weight;
+              });
+            }
+            // Min-max normalize
+            const min = Math.min(...resampled);
+            const max = Math.max(...resampled);
+            const normed = (max - min > 0)
+              ? resampled.map(v => (v - min) / (max - min))
+              : resampled.map(() => 0);
             fetch('http://localhost:5000/api/realtime/predict', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ecg: ecgArray })
+              body: JSON.stringify({ ecg: normed })
             })
               .then(res => res.json())
               .then(data => {
-                
-                setPredictedClass(data.prediction.class || '');
+                // Accepts both {prediction: {...}} and flat {...}
+                const pred = data.prediction || data;
+                setPrediction(pred);
               })
               .catch(() => {
-                setPredictedClass('');
+                setPrediction({});
               });
           }
         })
@@ -129,7 +147,11 @@ export default function StreamingDashboard() {
     <div className="stream-dashboard">
       <StreamingPatientInfo patient={patient} />
       <StreamingVitals vitals={vitals} error={vitalsError} />
-      <Prediction predictedClass={predictedClass} />
+      <Prediction
+        predictedClass={prediction.predicted_class_name || prediction.class || prediction.predicted_class || ''}
+        displayText={prediction.predicted_full_name || prediction.predicted_class_name || ''}
+        confidence={prediction.confidence}
+      />
       <StreamingECGChart batches={batches} error={ecgError} />
       <div style={{ marginTop: 16 }}>
         <span>Streaming batch {nextBatchStart} (showing last {window})</span>

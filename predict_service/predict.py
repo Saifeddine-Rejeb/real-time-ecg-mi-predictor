@@ -15,6 +15,7 @@ def root():
 
 
 @app.route('/predict', methods=['POST'])
+
 def predict():
     data = request.get_json()
 

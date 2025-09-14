@@ -55,3 +55,40 @@
   background: #1976d2;
   color: #fff;
 }
+
+/* Additional severity/likelihood classes */
+.prediction-mild {
+  background: #fff8e1 !important;
+  border: 2px solid #ffc107;
+}
+.prediction-mild #predicted-class {
+  background: #ffc107;
+  color: #212121;
+}
+
+.prediction-moderate {
+  background: #fff3e0 !important;
+  border: 2px solid #fb8c00;
+}
+.prediction-moderate #predicted-class {
+  background: #fb8c00;
+  color: #212121;
+}
+
+.prediction-severe {
+  background: #ffebee !important;
+  border: 2px solid #e53935;
+}
+.prediction-severe #predicted-class {
+  background: #e53935;
+  color: #fff;
+}
+
+.prediction-possible {
+  background: #e0f7fa !important;
+  border: 2px solid #26c6da;
+}
+.prediction-possible #predicted-class {
+  background: #26c6da;
+  color: #004d40;
+}

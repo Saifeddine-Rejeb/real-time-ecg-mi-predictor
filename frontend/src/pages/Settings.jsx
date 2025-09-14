@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './settings.css';
 
 export default function Settings() {
@@ -13,6 +13,34 @@ export default function Settings() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [language, setLanguage] = useState('EN');
   const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+      fetch(`http://localhost:5000/api/users/${userId}`, {
+        headers: {  
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.name) {
+            setUsername(data.name);
+          }
+          if (data && data.email) {
+            setEmail(data.email);
+          }
+        })
+        .catch(err => {
+          console.error('Error fetching user data:', err);
+          const savedEmail = localStorage.getItem('email');
+          if (savedEmail) {
+            setEmail(savedEmail);
+          }
+        });
+    }
+  }, []);
 
   const canSave =
     (editingUsername && newUsername) ||
