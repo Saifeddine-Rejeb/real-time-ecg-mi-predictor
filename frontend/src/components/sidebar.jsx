@@ -10,7 +10,7 @@ import logo from '../assets/logo.png'
 import UserManagement  from '../assets/userManagement.svg';
 const menuItems = [
     { label: 'Dashboard', path: '/', icon: HomeIcon },
-    { label: 'Alerts', path: '/alerts', count: 4, icon: AlertIcon },
+    { label: 'Alerts', path: '/alerts', count: 2, icon: AlertIcon },
     { label: 'Patients', path: '/patients', icon: SignalIcon },
     { label: 'Settings', path: '/settings', icon: SettingsIcon },
     { label: 'Logout', path: '/logout', icon: LogoutIcon },

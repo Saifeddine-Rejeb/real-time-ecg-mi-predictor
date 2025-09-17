@@ -32,50 +32,92 @@ function UserModal({ show, modalType, modalUser, onChange, onSubmit, onClose }) 
 }
 
 
-// API helpers
+// API helpers (with auth + debug)
 const API_BASE = 'http://localhost:5000/api/users';
 
-async function fetchAllUsers() {
-  // Get all users (admins + doctors)
-  const [adminsRes, doctorsRes] = await Promise.all([
-    fetch(`${API_BASE}/admins`),
-    fetch(`${API_BASE}/doctors`)
-  ]);
-  const admins = await adminsRes.json();
-  const doctors = await doctorsRes.json();
-  // Normalize _id to id, type to role, and default online to false if missing
-  function normalizeUser(u) {
-    return {
-      ...u,
-      id: u._id || u.id,
-      role: u.role || u.type || '',
-      online: typeof u.status === 'boolean' ? u.status : false
-    };
+function authHeaders(extra = {}) {
+  const token = localStorage.getItem('token');
+  if (!token) console.warn('[UserManagement] No token in localStorage');
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...extra
+  };
+}
+
+function normalizeUser(u) {
+  if (!u) return u;
+  return {
+    ...u,
+    id: u._id || u.id,
+    role: u.role || u.type || '',
+    online: typeof u.status === 'boolean' ? u.status : false
+  };
+}
+
+async function fetchUsersByRole(role) {
+  const headers = authHeaders();
+  console.debug(`[UserManagement] Fetching role ${role} with headers`, headers);
+  const res = await fetch(`${API_BASE}/${role}`, { headers });
+  let data;
+  try { data = await res.json(); } catch (e) {
+    console.error(`[UserManagement] Non-JSON response for ${role}`, e);
+    throw new Error(`${role} response not JSON (${res.status})`);
   }
-  return [...admins, ...doctors].map(normalizeUser);
+  console.debug(`[UserManagement] Response (${role}) status=${res.status}`, data);
+  if (!res.ok) throw new Error(data?.error || `${role} fetch failed (${res.status})`);
+  if (!Array.isArray(data)) {
+    console.warn(`[UserManagement] Expected array for ${role}, got`, data);
+    return [];
+  }
+  return data.map(normalizeUser);
+}
+
+async function fetchAllUsers(currentRole) {
+  console.debug('[UserManagement] fetchAllUsers for role', currentRole);
+  if (currentRole === 'admin') {
+    const [admins, doctors] = await Promise.all([
+      fetchUsersByRole('admins').catch(e => { console.error(e); return []; }),
+      fetchUsersByRole('doctors').catch(e => { console.error(e); return []; })
+    ]);
+    return [...admins, ...doctors];
+  }
+  if (currentRole === 'doctor') {
+    const patients = await fetchUsersByRole('patients').catch(e => { console.error(e); return []; });
+    return patients;
+  }
+  return [];
 }
 
 async function apiAddUser(user) {
+  const payload = { ...user, type: user.role || user.type };
   const res = await fetch(API_BASE, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user)
+    headers: authHeaders(),
+    body: JSON.stringify(payload)
   });
-  return res.json();
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Add user failed (${res.status})`);
+  return data;
 }
 
 async function apiEditUser(id, update) {
+  const payload = { ...update, type: update.role || update.type };
   const res = await fetch(`${API_BASE}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(update)
+    headers: authHeaders(),
+    body: JSON.stringify(payload)
   });
-  return res.json();
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Edit user failed (${res.status})`);
+  return data;
 }
 
 async function apiDeleteUser(id) {
-  const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
-  return res.json();
+  const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE', headers: authHeaders() });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Delete user failed (${res.status})`);
+  return data;
 }
 
 export default function UserManagement() {
@@ -90,10 +132,20 @@ export default function UserManagement() {
   const [sortDir, setSortDir] = useState('asc');
   const [search, setSearch] = useState('');
 
+  const [error, setError] = useState('');
+
   useEffect(() => {
+    const role = localStorage.getItem('role');
+    console.debug('[UserManagement] Mounted. role=', role, 'token=', localStorage.getItem('token'));
     setLoading(true);
-    fetchAllUsers()
+    setError('');
+    fetchAllUsers(role)
       .then(data => setUsers(data))
+      .catch(err => {
+        console.error('[UserManagement] Failed to load users:', err);
+        setUsers([]);
+        setError(err.message || 'Failed to load users');
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -161,8 +213,10 @@ export default function UserManagement() {
       (u.role && u.role.toLowerCase().includes(s))
     );
   };
+  const userRole = localStorage.getItem('role');
   const admins = users.filter(u => (u.role === 'admin' || u.type === 'admin') && filterFn(u)).sort(sortFn);
   const doctors = users.filter(u => (u.role === 'doctor' || u.type === 'doctor') && filterFn(u)).sort(sortFn);
+  const patients = users.filter(u => (u.role === 'patient' || u.type === 'patient') && filterFn(u)).sort(sortFn);
 
   return (
     <div className="user-management">
@@ -188,28 +242,46 @@ export default function UserManagement() {
       </div>
       {loading ? <div>Loading users...</div> : (
         <>
-          <UserTable
-            title="Admins"
-            users={admins}
-            onEdit={openEditModal}
-            onRemove={() => {}}
-            onAdd={() => openAddModal('admin')}
-            sortKey={sortKey}
-            sortDir={sortDir}
-            setSortKey={setSortKey}
-            isAdminTable={true}
-          />
-          <UserTable
-            title="Doctors"
-            users={doctors}
-            onEdit={openEditModal}
-            onRemove={handleRemove}
-            onAdd={() => openAddModal('doctor')}
-            sortKey={sortKey}
-            sortDir={sortDir}
-            setSortKey={setSortKey}
-            isAdminTable={false}
-          />
+          {userRole === 'admin' && (
+            <>
+              <UserTable
+                title="Admins"
+                users={admins}
+                onEdit={openEditModal}
+                onRemove={() => {}}
+                onAdd={() => openAddModal('admin')}
+                sortKey={sortKey}
+                sortDir={sortDir}
+                setSortKey={setSortKey}
+                isAdminTable={true}
+              />
+              <UserTable
+                title="Doctors"
+                users={doctors}
+                onEdit={openEditModal}
+                onRemove={handleRemove}
+                onAdd={() => openAddModal('doctor')}
+                sortKey={sortKey}
+                sortDir={sortDir}
+                setSortKey={setSortKey}
+                isAdminTable={false}
+              />
+            </>
+          )}
+          {userRole === 'doctor' && (
+            <UserTable
+              title="Patients"
+              users={patients}
+              onEdit={openEditModal}
+              onRemove={handleRemove}
+              onAdd={() => openAddModal('patient')}
+              sortKey={sortKey}
+              sortDir={sortDir}
+              setSortKey={setSortKey}
+              isAdminTable={false}
+            />
+          )}
+          {error && <div style={{color:'red', marginTop:10}}>{error}</div>}
           <UserModal
             show={showAdd || showAddAdmin}
             modalType={modalType}

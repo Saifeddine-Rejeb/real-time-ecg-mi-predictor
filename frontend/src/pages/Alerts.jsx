@@ -1,14 +1,16 @@
 import React from 'react';
 import './alerts.css';
 import { useNavigate } from 'react-router-dom';
+import { alertExamples } from '../data/alert_examples';
 
-// Simulated MI alerts based on files in back/test/mi(crise)
-const alerts = [
-  { id: '02331_hr', message: 'MI Alert', time: '2025-06-19 09:12' },
-  { id: '03829_hr', message: 'MI Alert', time: '2025-06-19 10:05' },
-  { id: '00867_hr', message: 'MI Alert', time: '2025-06-19 10:10' },
-  { id: '00868_hr', message: 'MI Alert', time: '2025-06-19 10:15' },
-];
+const alerts = alertExamples.map(example => ({
+  id: example.id,
+  Patient: example.name,
+  classification: example.predicted_full_name,
+  confidence: `${(example.confidence * 100).toFixed(2)}%`,
+  time: example.time,
+}));
+
 
 export default function Alerts() {
   const navigate = useNavigate();
@@ -18,16 +20,18 @@ export default function Alerts() {
       <table>
         <thead>
           <tr>
-            <th>Alert ID</th>
-            <th>Message</th>
+            <th>Patient</th>
+            <th>Classification</th>
+            <th>Confidence</th>
             <th>Time</th>
           </tr>
         </thead>
         <tbody>
           {alerts.map((alert) => (
             <tr key={alert.id} onClick={() => navigate(`/alerts/${alert.id}`)} style={{ cursor: 'pointer' }}>
-              <td>{alert.id}</td>
-              <td>{alert.message}</td>
+              <td>{alert.Patient}</td>
+              <td>{alert.classification}</td>
+              <td>{alert.confidence}</td>
               <td>{alert.time}</td>
             </tr>
           ))}
@@ -36,3 +40,5 @@ export default function Alerts() {
     </div>
   );
 }
+
+

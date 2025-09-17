@@ -20,6 +20,8 @@ def find_all_users():
     return list(users.find())
 
 def update_user(user_id, update):
+    if '_id' in update:
+        del update['_id']
     return users.update_one({'_id': ObjectId(user_id)}, {'$set': update})
 
 def delete_user(user_id):

@@ -15,7 +15,10 @@ from routes.realtime import realtime_bp
 from routes.mongo_stream import mongo_stream_bp
 import numpy as np
 app = Flask(__name__)
-CORS(app)
+CORS(app,
+    resources={r"/api/*": {"origins": ["http://localhost:5173"]}},
+    supports_credentials=True,
+    expose_headers=["Authorization"])
 
 BASE_ECG_DIR = os.getenv("ECG_DATA_DIR", "patients_test")
 

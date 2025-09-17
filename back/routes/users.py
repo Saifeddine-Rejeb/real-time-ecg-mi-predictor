@@ -13,6 +13,8 @@ users_bp = Blueprint('users_bp', __name__, url_prefix='/api/users')
 @jwt_required
 def create_user():
     user_data = request.get_json()
+    if 'role' in user_data and 'type' not in user_data:
+        user_data['type'] = user_data.pop('role')
     creator_role = request.user.get('role')
     new_user_type = user_data.get('type')
     if new_user_type == 'doctor':
@@ -56,6 +58,9 @@ def get_user(user_id):
 @role_required('admin', 'doctor')
 def update_user(user_id):
     update = request.get_json()
+    # Ensure 'type' field is present (convert 'role' to 'type' if needed)
+    if 'role' in update and 'type' not in update:
+        update['type'] = update.pop('role')
     user = find_user_by_id(user_id)
     if not user:
         return jsonify({'error': 'User not found'}), 404
@@ -96,7 +101,7 @@ def delete_user(user_id):
 @jwt_required
 @role_required('admin')
 def get_doctors():
-    doctors = [user for user in get_all_users() if user['type'] == 'doctor']
+    doctors = [user for user in get_all_users() if user.get('type') == 'doctor']
     for user in doctors:
         user['_id'] = str(user['_id'])
         user.pop('password_hash', None)
@@ -108,7 +113,7 @@ def get_doctors():
 @jwt_required
 @role_required('admin')
 def get_admins():
-    admins = [user for user in get_all_users() if user['type'] == 'admin']
+    admins = [user for user in get_all_users() if user.get('type') == 'admin']
     for user in admins:
         user['_id'] = str(user['_id'])
         user.pop('password_hash', None)
@@ -119,7 +124,7 @@ def get_admins():
 @jwt_required
 @role_required('doctor')
 def get_patients():
-    patients = [user for user in get_all_users() if user['type'] == 'patient' and str(user.get('doctor_id')) == str(request.user.get('user_id'))]
+    patients = [user for user in get_all_users() if user.get('type') == 'patient' and str(user.get('doctor_id')) == str(request.user.get('user_id'))]
     for user in patients:
         user['_id'] = str(user['_id'])
         user.pop('password_hash', None)
